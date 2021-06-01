@@ -1,0 +1,50 @@
+train_recognizer:
+  data:
+    data_dir: Data
+    language_dir: Tamil-V2
+    character_map_file: Character-Maps/Characters-Tamil.txt
+    num_train_samples: 150 # [1, 180] in thousands
+    tokenize_method: original # {original, unicode} # use original also for multi label methods
+    max_tokens: 13
+
+  model:
+    name: crnn-1 # {crnn-1 [max_tokens:13], crnn-2 [max_tokens:6]} # crnn01 for all modes
+    mode: multi-label # {original, unicode, multi-label, multi-label-shuffle}
+    is_bidirectional: True
+    rnn_hidden_size: 256
+    use_out_scale: True # only applicable for multi-label method. Use for joint learning
+    use_softmax: False # only applicable for multi-label method. Use for joint learning. Don't use it
+
+  training:
+    is_pretrained: True
+    max_epochs: 20
+    batch_size: 64
+    remove_consonant_blanks: True # only applicable for multi-label methods
+    remove_glyph_blanks: True # only applicable for multi-label methods
+    weight_character_loss: 0.7 # only applicable for multi-label methods
+    weight_consonant_loss: 0.15 # only applicable for multi-label methods
+    weight_glyph_loss: 0.15 # only applicable for multi-label methods
+    weight_decay: 1.e-3
+    grad_norm_threshold: 3
+    lr: 0.00005
+    lr_step_size: 5
+    lr_gamma: 1
+
+generate_adversarial_examples:
+  data:
+    data_dir: Data
+    language_dir: Tamil-V2
+    character_map_file: Character-Maps/Characters-Tamil.txt
+    tokenize_method: unicode # {original, unicode} # use original also for multi label methods
+    max_tokens: 13
+
+  model:
+    name: crnn-1 # {crnn-1 [max_tokens:13], crnn-2 [max_tokens:6]} # crnn01 for all modes
+    mode: unicode # {original, unicode, multi-label, multi-label-shuffle}
+    is_bidirectional: True
+    rnn_hidden_size: 256
+    use_out_scale: False # only applicable for multi-label method. Use for joint learning
+    use_softmax: False
+
+  save_path_val: Data/attacks-val
+  save_path_test: Data/attacks-test

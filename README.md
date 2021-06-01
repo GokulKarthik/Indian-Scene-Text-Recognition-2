@@ -1,0 +1,1 @@
+Dataset: https://github.com/GokulKarthik/Indian-Scene-Text-Dataset#d3-recognition-dataset

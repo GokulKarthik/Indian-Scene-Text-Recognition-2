@@ -1,0 +1,8 @@
+pandas
+pillow
+pytorch-lightning
+PyYAML
+torch
+torchvision
+tqdm
+wandb
